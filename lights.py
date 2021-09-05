@@ -1,5 +1,7 @@
 import time
 import neopixel
+from random import choice as random_choice
+
 
 class strip:
     def __init__(self, pixel_pin, num_pixels, order):
@@ -30,3 +32,25 @@ class strip:
                     self.strip.show()
                 else:
                     time.sleep(delay)
+
+    def color_chase_bounce(self, wait, iteration):
+        i = 0
+        for a in range(iteration):
+            color1 = random_choice(self.colors[:5])
+            color2 = random_choice(self.colors[:5])
+            while i <= self.num_pixels - 2:
+                self.strip[i] = color1
+                self.strip.show()
+                i += 1
+                time.sleep(wait)
+            while i >= 0:
+                self.strip[i] = color2
+                self.strip.show()
+                i = i - 1
+                time.sleep(wait)
+
+    def strobe(self, wait=0.2):
+        for color in self.colors[:5]:
+            self.strip.fill(color)
+            self.strip.show()
+            time.sleep(wait)
